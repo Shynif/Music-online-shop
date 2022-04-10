@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block entete %}
+  Merci de votre confiance
+{% endblock %}
+
+{% block contenu %}
+    <h3>Insérez votre CB <br> 0:)</h3>
+    <ol>
+        {% for d in data %}
+            <li>{{ d[0] }} - {{ d[1] }} </li>
+        {% endfor %}
+    </ol>
+    <b>Prix total : {{ total }}</b>
+{% endblock %}
