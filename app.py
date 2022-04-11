@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, g, session
 import sqlite3
-from random import shuffle
+from random import shuffle, choice
 
 app = Flask("Chinook")
 app.secret_key = 'suoer clé'
@@ -58,6 +58,26 @@ def selection(requete, args=(), one=False):
 ########## PAGES WEB ###########################
 ################################################
 
+random_color = [
+    'red',
+    'orange',
+    'amber',
+    'yellow',
+    'lime',
+    'green',
+    'emerald',
+    'teal',
+    'cyan',
+    'sky',
+    'blue',
+    'indigo',
+    'violet',
+    'purple',
+    'fuchsia',
+    'pink',
+    'rose',
+]
+
 #L'accueil
 @app.route('/')
 @app.route('/index')
@@ -68,6 +88,8 @@ def accueil():
     WHERE 1
     """
     session['panier'] = {}
+    c_tmp = choice(random_color)
+    session['color'] = c_tmp
     liste = selection(requete)
     shuffle(liste)
     return render_template('index.jinja', artistes = liste)
@@ -81,6 +103,8 @@ def accueil_bis():
     WHERE 1
     """
     session['panier'] = {}
+    c_tmp = choice(random_color)
+    session['color'] = c_tmp
     liste = selection(requete)
     shuffle(liste)
     return render_template('indexArtistes.jinja', artistes = liste)
@@ -145,6 +169,12 @@ def pageAchat() :
     total = round(total,2)
     data = [(nom, valeur) for nom, valeur in zip(noms, valeurs)]
     return render_template('achat.jinja', data=data, total=total)
+
+
+#L'accueil
+@app.route('/test')
+def test_zone():
+    return render_template('test.html')
 
 ################################################
 ################################################

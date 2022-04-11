@@ -4,13 +4,13 @@
   <nav>
         <ul class="flex border-b mt-5 text-xl">
             <li class="-mb-px mr-1 ml-10">
-              <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold" href="/">Chinook</a>
+              <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-{{ session['color'] }}-700 font-semibold" href="/">Chinook</a>
             </li>
             <li class="mr-1">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="/artistes">Artistes</a>
+              <a class="bg-white inline-block py-2 px-4 text-{{ session['color'] }}-500 hover:text-{{ session['color'] }}-800 font-semibold" href="/artistes">Artistes</a>
             </li>
             <li class="mr-1">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="/albums">Albums</a>
+              <a class="bg-white inline-block py-2 px-4 text-{{ session['color'] }}-500 hover:text-{{ session['color'] }}-800 font-semibold" href="/albums">Albums</a>
             </li>
             <li class="mr-1">
               <a class="bg-white inline-block py-2 px-4 text-gray-400 font-semibold" href="#">Panier</a>
@@ -26,8 +26,8 @@
 {% endblock %}
 
 {% block entete_extra %}
-  <div  class="flex justify-center">
-    <img class="w-20" src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Curly_brackets_icon.svg/2560px-Curly_brackets_icon.svg.png'>
+  <div  class="flex justify-center" id="sketch-holder">
+    <script src="../static/sketch.js"></script>
   </div>
 {% endblock %}
 
@@ -44,9 +44,9 @@
         <ul class="grid grid-cols-10 gap-20 grid-flow-row">
           {% for artiste in artistes %}
               {% if [True,False]|random() %}
-                <li class="col-span-{{ [2,3,4,5] | random() }} transform -rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-blue-100 delay-50 duration-100 p-5 rounded-lg">
+                <li class="col-span-{{ [2,3,4,5] | random() }} transform -rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-{{ session['color'] }}-100 delay-50 duration-100 p-5 rounded-lg">
               {% else %}
-                <li class="col-span-{{ [2,3,4,5] | random() }} transform rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-blue-100 delay-50 duration-100 p-5 rounded-lg">
+                <li class="col-span-{{ [2,3,4,5] | random() }} transform rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-{{ session['color'] }}-100 delay-50 duration-100 p-5 rounded-lg">
               {% endif %}
               <!-- Modifié de : https://tailwindcomponents.com/component/spotify-playlist-card -->
               <!-- Autre concept : https://tailwind-elements.com/snippets/tailwind/tailwindelements/3736695 -->
@@ -56,7 +56,7 @@
                   <!-- Image Cover -->
                   <img src="https://picsum.photos/600/250?random={{ [0,1,2,3,4,5] | random() }}" class="w-full rounded shadow" />
                   <!-- Title -->
-                  <h3 class="text-blue-900 font-bold mt-5"> {{ artiste['Name'] }} </h3>
+                  <h3 class="text-{{ session['color'] }}-900 font-bold mt-5"> {{ artiste['Name'] }} </h3>
                 </a>
               </div>
             </li>

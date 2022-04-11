@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <script src="../static/p5.js"></script>
+    <script src="../static/p5.pattern.js"></script>
     {% block navbar %}{% endblock %}
 </head>
 
 <body>
     <section>
-        <h1 class="font-medium leading-tight text-6xl mt-8 mb-0 text-blue-300">
+        <h1 class="font-medium leading-tight text-6xl text-{{ session['color'] }}-300 transform translate-y-12">
             {% block entete %}{% endblock %}
         </h1>
         {% block entete_extra %}{% endblock %}
