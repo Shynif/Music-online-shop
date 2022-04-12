@@ -4,16 +4,16 @@
   <nav>
         <ul class="flex border-b mt-5 text-xl">
             <li class="mr-1 ml-10">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="/index">Chinook</a>
+              <a class="bg-white inline-block py-2 px-4 text-{{ session['color'] }}-500 hover:text-{{ session['color'] }}-800 font-semibold" href="/index">Chinook</a>
             </li>
             <li class="-mb-px mr-1">
-              <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-700 font-semibold" href="/artistes">Artistes</a>
+              <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-{{ session['color'] }}-700 font-semibold" href="/artistes">Artistes</a>
             </li>
             <li class="mr-1">
-              <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="/albums">Albums</a>
+              <a class="bg-white inline-block py-2 px-4 text-{{ session['color'] }}-500 hover:text-{{ session['color'] }}-800 font-semibold" href="/albums">Albums</a>
             </li>
             <li class="mr-1">
-              <a class="bg-white inline-block py-2 px-4 text-gray-400 font-semibold" href="#">Panier</a>
+              <a class="bg-white inline-block py-2 px-4 {{ session['panierAvailable'] }} font-semibold" href="{{ session['panierLink'] }}">Panier</a>
             </li>
         </ul>
     </nav>
@@ -26,8 +26,8 @@
 {% endblock %}
 
 {% block entete_extra %}
-  <div  class="flex justify-center">
-    <img src='data:image/jpeg;base64,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'>
+  <div  class="flex justify-center" id="sketch-holder">
+    <script src="../static/sketch.js"></script>
   </div>
 {% endblock %}
 
@@ -37,9 +37,9 @@
         <ul class="grid grid-cols-10 gap-20 grid-flow-row">
           {% for artiste in artistes %}
               {% if [True,False]|random() %}
-                <li class="col-span-{{ [2,3,4,5] | random() }} transform -rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-blue-100 delay-50 duration-100 p-5 rounded-lg">
+                <li class="col-span-{{ [2,3,4,5] | random() }} transform -rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-{{ session['color'] }}-100 delay-50 duration-100 p-5 rounded-lg">
               {% else %}
-                <li class="col-span-{{ [2,3,4,5] | random() }} transform rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-blue-100 delay-50 duration-100 p-5 rounded-lg">
+                <li class="col-span-{{ [2,3,4,5] | random() }} transform rotate-{{ [0,3,6,9,12] | random() }} translate-x-{{ [0,3,6,9,12] | random() }} translate-y-{{ [0,3,6,9,12] | random() }} bg-white rounded-lg shadow-xl hover:bg-{{ session['color'] }}-100 delay-50 duration-100 p-5 rounded-lg">
               {% endif %}
               <!-- Modifié de : https://tailwindcomponents.com/component/spotify-playlist-card -->
               <!-- Autre concept : https://tailwind-elements.com/snippets/tailwind/tailwindelements/3736695 -->
@@ -49,7 +49,7 @@
                   <!-- Image Cover -->
                   <img src="https://picsum.photos/600/250?random={{ [0,1,2,3,4,5] | random() }}" class="w-full rounded shadow" />
                   <!-- Title -->
-                  <h3 class="text-blue-900 font-bold mt-5"> {{ artiste['Name'] }} </h3>
+                  <h3 class="text-{{ session['color'] }}-900 font-bold mt-5"> {{ artiste['Name'] }} </h3>
                 </a>
               </div>
             </li>

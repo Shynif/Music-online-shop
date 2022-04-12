@@ -3,7 +3,7 @@ import sqlite3
 from random import shuffle, choice
 
 app = Flask("Chinook")
-app.secret_key = 'suoer clé'
+app.secret_key = ''.join([choice('abcdefghijklmnopqrst') for i in range(10)])
 
 
 ################################################
@@ -87,11 +87,15 @@ def accueil():
     FROM artists
     WHERE 1
     """
-    session['panier'] = {}
-    c_tmp = choice(random_color)
-    session['color'] = c_tmp
+    if 'panier' not in session : # Création d'une session
+        session['panier'] = []
+        c_tmp = choice(random_color)
+        session['color'] = c_tmp
+        session['panierAvailable'] = 'text-gray-400'
+        session['panierLink'] = '#'
     liste = selection(requete)
     shuffle(liste)
+    print(session)
     return render_template('index.jinja', artistes = liste)
 
 #L'accueil
@@ -102,9 +106,12 @@ def accueil_bis():
     FROM artists
     WHERE 1
     """
-    session['panier'] = {}
-    c_tmp = choice(random_color)
-    session['color'] = c_tmp
+    if 'panier' not in session : # Création d'une session
+        session['panier'] = []
+        c_tmp = choice(random_color)
+        session['color'] = c_tmp
+        session['panierAvailable'] = 'text-gray-400'
+        session['panierLink'] = '#'
     liste = selection(requete)
     shuffle(liste)
     return render_template('indexArtistes.jinja', artistes = liste)
@@ -119,6 +126,12 @@ def accueilAlbums():
     FROM albums
     WHERE 1
     """
+    if 'panier' not in session : # Création d'une session
+        session['panier'] = []
+        c_tmp = choice(random_color)
+        session['color'] = c_tmp
+        session['panierAvailable'] = 'text-gray-400'
+        session['panierLink'] = '#'
     liste = selection(requete)
     shuffle(liste)
     return render_template('index_albums.jinja', albums=liste)
@@ -136,6 +149,12 @@ def artiste_page() :
     ON artists.ArtistId = albums.ArtistId
     WHERE artists.Name = ?
     """
+    if 'panier' not in session : # Création d'une session
+        session['panier'] = []
+        c_tmp = choice(random_color)
+        session['color'] = c_tmp
+        session['panierAvailable'] = 'text-gray-400'
+        session['panierLink'] = '#'
     album = selection(requete, (artiste,))
     return render_template('artiste.jinja', nomArtiste=artiste, albums=album)
 
@@ -153,6 +172,12 @@ def albumPage() :
     ON albums.AlbumId = tracks.AlbumId
     WHERE albums.Title = ?
     """
+    if 'panier' not in session : # Création d'une session
+        session['panier'] = []
+        c_tmp = choice(random_color)
+        session['color'] = c_tmp
+        session['panierAvailable'] = 'text-gray-400'
+        session['panierLink'] = '#'
     tracks = selection(requete, (album,))
     return render_template('album.jinja', nomAlbum=album, nomArtiste=artiste, tracks=tracks)
 
@@ -162,14 +187,19 @@ def pageAchat() :
     data = request.form
     noms = [nom for nom in data]
     valeurs = [data[n] for n in noms]
-    print(data)
-    print(noms)
-    print(valeurs)
-    total = sum([float(v) for v in valeurs])
+    [session['panier'].append((nom, valeur)) for nom, valeur in zip(noms, valeurs)]
+    total = sum([float(v[1]) for v in session['panier']])
     total = round(total,2)
-    data = [(nom, valeur) for nom, valeur in zip(noms, valeurs)]
-    return render_template('achat.jinja', data=data, total=total)
+    session['panierLink'] = '/commandePanier'
+    session['panierAvailable'] = f"text-{ session['color'] }-500 hover:text-{ session['color'] }-800"
+    return render_template('achat.jinja', total=total)
 
+
+@app.route('/commandePanier')
+def pagePanier() :
+    total = sum([float(v[1]) for v in session['panier']])
+    total = round(total,2)
+    return render_template('achat.jinja', total=total)
 
 #L'accueil
 @app.route('/test')
@@ -197,4 +227,6 @@ def test_zone():
 # Le corps du programme
 if __name__=='__main__':
     # Serveur visible sur ce poste uniquement et modifiable à la volée (mode debug actif)
-    app.run(debug=True)
+    #app.run(debug=True)
+
+    app.run() # wow la version finale !
